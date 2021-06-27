@@ -37,16 +37,10 @@ app.delete("/students/:id", async (req, res) => {
         await student.save();
         res.sendStatus(200);
     }
-    if (req.query.type == "hard") {
-        await Student.findByIdAndDelete(req.params.id, function (err, docs) {
-            if (err){
-                res.sendStatus(404)
-            }
-            else {
-                res.sendStatus(200)
-            }
-        });
-    }
+     if(req.query.type === "hard") {
+         await Student.deleteOne({_id:req.params.id}); 
+         res.sendStatus(200);
+     }
 });
 
 module.exports = app;
