@@ -44,4 +44,14 @@ app.delete('/student/:id', async (req, res) =>{
     }
 }) 
 
+app.delete('/students/:id', async (req, res) =>{
+    if(req.query.type === "soft") {
+        const student = await Student.findById(req.params.id);
+        if(student.isDeleted) return res.sendStatus(404);
+        student.isDeleted = true;
+        await student.save();
+        res.sendStatus(200);
+    }
+})
+
 module.exports = app;
